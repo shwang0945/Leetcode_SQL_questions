@@ -8,3 +8,28 @@ FROM Project p , Employee e
 WHERE p.employee_id = e.employee_id
 GROUP BY p.project_id) a JOIN Project p ON a. project_id = p.project_id JOIN Employee e ON p.employee_id = e.employee_id
 WHERE a.years = e.experience_years
+
+Others:
+
+MySQL
+
+select p.project_id, p.employee_id
+from Project p join Employee e
+on p.employee_id = e.employee_id
+where (p.project_id, e.experience_years) in (
+    select a.project_id, max(b.experience_years)
+    from Project a join Employee b
+    on a.employee_id = b.employee_id
+    group by a.project_id);
+    
+    
+MSSQL - WINDOWS FUNCTION
+
+select t.project_id, t.employee_id
+from
+    (select project_id,
+    p.employee_id,
+    rank() over(partition by project_id order by experience_years desc) as rank
+    from Project p join Employee e
+    on p.employee_id = e.employee_id) t
+where t.rank = 1;
