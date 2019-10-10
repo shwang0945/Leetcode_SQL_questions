@@ -1,0 +1,10 @@
+1077. Project Employees III
+
+My Answer:
+
+SELECT p.project_id, p.employee_id
+FROM (SELECT p.project_id, e.name, Max(e.experience_years) As years
+FROM Project p , Employee e
+WHERE p.employee_id = e.employee_id
+GROUP BY p.project_id) a JOIN Project p ON a. project_id = p.project_id JOIN Employee e ON p.employee_id = e.employee_id
+WHERE a.years = e.experience_years
