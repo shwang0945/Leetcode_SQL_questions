@@ -33,3 +33,26 @@ from
     from Project p join Employee e
     on p.employee_id = e.employee_id) t
 where t.rank = 1;
+
+
+
+1126. Active Businesses
+
+My Answer:
+
+SELECT business_id
+FROM Events e JOIN (SELECT event_type, Avg(occurences) As average_occurences
+FROM Events
+GROUP BY event_type) a ON e.event_type = a.event_type
+WHERE e.occurences  > a.average_occurences
+GROUP BY business_id HAVING COUNT(e.event_type) >1  
+
+Others:
+
+MS SQL - WINDOWSFUNCTION
+
+select business_id from 
+(
+select  * , avg(occurences) over(partition by event_type ) as e_avg from 
+events) a where occurences>e_avg
+group by business_id having count(event_type)>1
