@@ -56,3 +56,20 @@ select business_id from
 select  * , avg(occurences) over(partition by event_type ) as e_avg from 
 events) a where occurences>e_avg
 group by business_id having count(event_type)>1
+
+
+
+534. Game Play Analysis III
+
+My Answer: (MS SQL)
+
+SELECT player_id,event_date, SUM(games_played)over(partition by player_id ORDER BY event_date) As games_played_so_far
+FROM Activity 
+
+MySQL
+select a1.player_id, a1.event_date, sum(a2.games_played) as games_played_so_far
+from activity as a1
+inner join activity as a2
+on a1.event_date >= a2.event_date
+and a1.player_id = a2.player_id
+group by  a1.player_id, a1.event_date
