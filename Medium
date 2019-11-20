@@ -77,7 +77,31 @@ group by  a1.player_id, a1.event_date
 
 177. Nth Highest Salary
 
+
 MySQL:
+
+CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+DECLARE M INT;
+SET M=N-1;
+  RETURN (
+      # Write your MySQL query statement below.
+      SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC LIMIT M, 1
+  );
+END
+
+****************
+SELECT 
+    select_list
+FROM
+    table_name
+LIMIT [offset,] row_count;
+****************
+
+
+
+
+???
 CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
 BEGIN
   RETURN (
@@ -95,3 +119,21 @@ The FETCH clause specifies the number of rows to return after the OFFSET clause 
 The OFFSET clause is mandatory while the FETCH clause is optional. Also, the FIRST and NEXT are synonyms respectively so you can use them interchangeably. Similarly, you can use the FIRST and NEXT interchangeably.
 
 
+CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+    
+  RETURN (
+      # Write your MySQL query statement below.
+      
+    
+      SELECT e1.Salary
+      FROM (SELECT DISTINCT Salary FROM Employee) e1
+      WHERE (SELECT COUNT(*) FROM (SELECT DISTINCT Salary FROM Employee) e2 WHERE e2.Salary > e1.Salary) = N - 1      
+      
+      LIMIT 1
+      
+      
+      
+      
+  );
+END
