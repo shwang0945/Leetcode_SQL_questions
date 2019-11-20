@@ -73,3 +73,25 @@ inner join activity as a2
 on a1.event_date >= a2.event_date
 and a1.player_id = a2.player_id
 group by  a1.player_id, a1.event_date
+
+
+177. Nth Highest Salary
+
+MySQL:
+CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+  RETURN (
+    /* Write your T-SQL query statement below. */
+    select COALESCE(SALARY,NULL) 
+    FROM EMPLOYEE
+    GROUP BY SALARY
+    ORDER BY SALARY DESC
+    OFFSET @N-1 ROWS FETCH FIRST 1 ROWS ONLY
+);
+
+**************************
+The OFFSET clause specifies the number of rows to skip before starting to return rows from the query. The offset_row_count can be a constant, variable, or parameter that is greater or equal to zero.
+The FETCH clause specifies the number of rows to return after the OFFSET clause has been processed. The offset_row_count can a constant, variable or scalar that is greater or equal to one.
+The OFFSET clause is mandatory while the FETCH clause is optional. Also, the FIRST and NEXT are synonyms respectively so you can use them interchangeably. Similarly, you can use the FIRST and NEXT interchangeably.
+
+
