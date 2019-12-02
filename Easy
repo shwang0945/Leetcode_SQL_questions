@@ -8,3 +8,24 @@ SELECT query_name,
    ROUND(AVG(CASE WHEN rating <3 THEN 1 ELSE 0 END)*100,2) As poor_query_percentage
 FROM Queries
 GROUP BY query_name 
+
+
+
+1241. Number of Comments per Post 
+
+MYSQL
+MY:
+SELECT a.post_id, IFNULL(COUNT(DISTINCT s.sub_id),0) As number_of_comments
+FROM submissions s RIGHT JOIN (SELECT DISTINCT sub_id AS post_id
+     FROM submissions
+     WHERE parent_id IS NULL) a ON s.parent_id = a.post_id
+GROUP BY a.post_id 
+
+TOP VOTE:
+
+SELECT s.sub_id AS post_id,
+(SELECT COUNT(DISTINCT(s1.sub_id)) FROM Submissions s1 WHERE s1.parent_id = s.sub_id) 
+AS number_of_comments
+FROM Submissions s
+WHERE s.parent_id IS null
+GROUP BY s.sub_id;
