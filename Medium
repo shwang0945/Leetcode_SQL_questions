@@ -159,3 +159,24 @@ GROUP BY id
 ORDER BY num DESC
 LIMIT 1
 
+
+
+1308. Running Total for Different Genders
+
+MySQL:
+(Windows Function)
+
+SELECT gender, day, SUM(score_points)over(Partition by gender Order by day) AS total
+FROM Scores
+ORDER BY gender, day
+
+
+(self joins)
+SELECT gender,day,
+(
+    SELECT SUM(score_points) FROM Scores as b
+    WHERE a.gender=b.gender AND a.day>=b.day
+) as total
+FROM Scores as a
+GROUP BY gender,day
+ORDER BY gender,day;
