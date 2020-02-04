@@ -180,3 +180,22 @@ SELECT gender,day,
 FROM Scores as a
 GROUP BY gender,day
 ORDER BY gender,day;
+
+
+
+
+612. Shortest Distance in a Plane
+
+MYSQL:(MY ANSWER) 
+
+SELECT CAST(MIN(distance) AS DECIMAL(4,2)) as shortest
+FROM
+(SELECT SQRT(POWER(p1.x - p2.x,2)+POWER(p1.y - p2.y,2)) AS distance
+FROM point_2d p1, point_2d p2 ) temp
+WHERE temp.distance > 0
+
+
+
+select ROUND(SQRT(min((p1.x-p2.x)*(p1.x-p2.x)+(p1.y-p2.y)*(p1.y-p2.y))),2) as shortest
+from point_2d p1,point_2d p2
+where p1.x <> p2.x or p1.y <> p2.y;
